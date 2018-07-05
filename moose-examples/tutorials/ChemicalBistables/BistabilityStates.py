@@ -129,14 +129,14 @@ def updateKcat2(val):
 
 def bufferFunc(val):
     deleteSolvers()
-    if val == 'Buffering: None':
-        moose.element( '/model/compartment/b' ).isBuffered = 0
-        moose.element( '/model/compartment/c' ).isBuffered = 0
+    moose.element( '/model/compartment/a' ).isBuffered = 0
+    moose.element( '/model/compartment/b' ).isBuffered = 0
+    moose.element( '/model/compartment/c' ).isBuffered = 0
+    if val == 'A':
+        moose.element( '/model/compartment/a' ).isBuffered = 1
     elif val == 'B':
         moose.element( '/model/compartment/b' ).isBuffered = 1
-        moose.element( '/model/compartment/c' ).isBuffered = 0
     elif val == 'C':
-        moose.element( '/model/compartment/b' ).isBuffered = 0
         moose.element( '/model/compartment/c' ).isBuffered = 1
     makeSolvers()
     updateDisplay()
@@ -186,9 +186,9 @@ def makeDisplay():
     axReset = plt.axes( [0.25,0.05, 0.30,0.03], facecolor='blue' )
     axQuit = plt.axes( [0.25,0.10, 0.30,0.03], facecolor='blue' )
     axBuffer = plt.axes( [0.60,0.05, 0.30,0.08], facecolor='yellow' )
-    axAinit = plt.axes( [0.25,0.15, 0.65,0.03], facecolor=axcolor )
+    axCinit = plt.axes( [0.25,0.15, 0.65,0.03], facecolor=axcolor )
     axBinit = plt.axes( [0.25,0.20, 0.65,0.03], facecolor=axcolor )
-    axCinit = plt.axes( [0.25,0.25, 0.65,0.03], facecolor=axcolor )
+    axAinit = plt.axes( [0.25,0.25, 0.65,0.03], facecolor=axcolor )
     axKcat2 = plt.axes( [0.25,0.30, 0.65,0.03], facecolor=axcolor )
     axKcat1 = plt.axes( [0.25,0.35, 0.65,0.03], facecolor=axcolor )
     #aInit = Slider( axAinit, 'A init conc', 0, 10, valinit=1.0, valstep=0.2)
@@ -199,7 +199,7 @@ def makeDisplay():
     cInit = Slider( axCinit, 'C init conc', 0, 0.1, valinit=0.01 )
     kcat2 = Slider( axKcat2, 'Kcat for enz2', 0, 2, valinit=0.6 )
     kcat1 = Slider( axKcat1, 'Kcat for enz1', 0, 2, valinit=0.4 )
-    setBuffer = RadioButtons(axBuffer, ('Buffering: None', 'B', 'C'))
+    setBuffer = RadioButtons(axBuffer, ('Buffering: None', 'A', 'B', 'C'))
     def resetParms( event ):
         deleteSolvers()
         aInit.reset()
